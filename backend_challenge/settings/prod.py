@@ -1,16 +1,19 @@
 from .base import *
-from dj_database_url import parse as db_url
 
-
-
-DEBUG = False
-
-ALLOWED_HOSTS=['backend-challenge5.herokuapp.com',]
+DEBUG = config('DEBUG', cast=bool)
+ALLOWED_HOSTS = config('ALLOWED_HOSTS')
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.postgresql',
-    'NAME': 'orders',
-    'USER': 'lucy',
-    'PASSWORD': 'lucy',
-}}
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '',
+    }
+}
+
+
+
+

@@ -143,7 +143,7 @@ STATIC_URL = '/static/'
 django_heroku.settings(locals())
 OIDC_OP_JWKS_ENDPOINT ="https://www.googleapis.com/oauth2/v3/certs"
 OIDC_RP_CLIENT_ID ='1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com'
-OIDC_RP_CLIENT_SECRET= 'AIzaSyAkw8adY5APW2_itbgE3WnYI2lt5o0NtPk'
+OIDC_RP_CLIENT_SECRET= '1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com'
 OIDC_OP_AUTHORIZATION_ENDPOINT ="https://accounts.google.com/o/oauth2/v2/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT="https://openidconnect.googleapis.com/v1/userinfo",

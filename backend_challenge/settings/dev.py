@@ -11,3 +11,5 @@ DATABASES = {
     }
 }
 
+# --settings=backend_challenge.settings.dev
+

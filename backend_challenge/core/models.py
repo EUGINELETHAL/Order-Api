@@ -11,7 +11,7 @@ class TimeStampedModel(models.Model):
 
 class Order(TimeStampedModel):
     item = models.CharField(max_length=200, )
-    amount = models.PositiveIntegerField
+    amount = models.PositiveIntegerField(default=0)
     customer = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
 
     # def __str__(self):

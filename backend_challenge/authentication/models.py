@@ -45,7 +45,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(_('email address'), db_index=True, unique=True)
     name = models.CharField(_('name'), max_length=30, blank=True)
     date_joined = models.DateTimeField(_('date joined'), auto_now_add=True)
-    phone = models.CharField(_('phone'), max_length=12, blank=True)
+    phone = models.CharField(_('phone'), max_length=12, blank=True , default="")
     is_active = models.BooleanField(_('active'), default=True)
     is_verified = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)

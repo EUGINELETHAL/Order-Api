@@ -1,18 +1,18 @@
 from rest_framework import serializers
-from todos.models import Todo
+from .models import Order
+from backend_challenge.authentication.models  import  User
 
-
-class TodoUserSerializer(serializers.ModelSerializer):
+class OrderUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ("id", "username", "email", "date_joined")
+        fields = ("email", "phone")
 
 
-class TodoSerializer(serializers.ModelSerializer):
-    user = TodoUserSerializer(read_only=True)
+class OrderSerializer(serializers.ModelSerializer):
+    user = OrderUserSerializer(read_only=True)
 
     class Meta:
-        model = Todo
-        fields = ("user", "name", "done", "date_created")
+        model = Order
+        fields = ("customer", "item", "amount", )
  

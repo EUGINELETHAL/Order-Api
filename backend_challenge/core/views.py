@@ -1,30 +1,17 @@
 from django.shortcuts import render
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from .serializers import OrderSerializer
+from .models import Order
 
 # Create your views here.
-class TodoListCreateAPIView(ListCreateAPIView):
-    serializer_class = TodoSerializer
-
+class OrderListCreateAPIView(ListCreateAPIView):
+    serializer_class = OrderSerializer
+    
     def get_queryset(self):
-        return Todo.objects.filter(user=self.request.user)
+        return Order.objects.filter(customer=self.request.user)
 
+    
     def perform_create(self, serializer):
-        class InvoiceViewSet(ModelViewSet):
-    queryset = Invoice.objects.all()
-    serializer_class = InvoiceSerializer
+       serializer.save(customer=self.request.user)
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user, status=Invoice.SENT)serializer.save(user=self.request.user)
-
-class SubjectList(APIView):
-    def get(self, request, format=None):
-        all_subjects = Subject.objects.all()
-        serializers = SubjectSerializer(all_subjects, many=True)
-        return Response(serializers.data)
-
-    def post(self, request, format=None):
-        serializers = SubjectSerializer(data=request.data)
-        if serializers.is_valid():
-            serializers.save()
-            return Response(serializers.data, status=status.HTTP_201_CREATED)
-        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
 

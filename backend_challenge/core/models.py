@@ -1,4 +1,22 @@
 from django.db import models
+from mozilla_django_oidc.auth import OIDCAuthenticationBackend
+
+
+class Customer(OIDCAuthenticationBackend, models.Model):
+    phone = models.CharField('phone', max_length=12, blank=True , default="")
+
+    def filter_users_by_claims(self, claims):
+        email = claims.get('email')
+        if not email:
+            return self.UserModel.objects.none()
+
+        try:
+            customer = Customer.objects.get(email=email)
+            return customer.user
+
+        except Customer.DoesNotExist:
+            return self.UserModel.objects.none()
+
 
 
 class TimeStampedModel(models.Model):
@@ -12,7 +30,7 @@ class TimeStampedModel(models.Model):
 class Order(TimeStampedModel):
     item = models.CharField(max_length=200, )
     amount = models.PositiveIntegerField(default=0)
-    customer = models.ForeignKey('authentication.User', on_delete=models.CASCADE)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
 
     # def __str__(self):
     #     return f"Order: {self.id} -customer: {self.customer.}"

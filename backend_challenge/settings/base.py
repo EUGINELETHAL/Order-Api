@@ -109,7 +109,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTH_USER_MODEL = 'authentication.User'
 
 
 # Internationalization
@@ -138,13 +137,14 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+LOGIN_REDIRECT_URL = '/api/order'
 STATIC_URL = '/static/'
 django_heroku.settings(locals())
+OIDC_RP_SIGN_ALGO = "RS256"
 OIDC_OP_JWKS_ENDPOINT ="https://www.googleapis.com/oauth2/v3/certs"
 OIDC_RP_CLIENT_ID ='1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com'
-OIDC_RP_CLIENT_SECRET= 'AIzaSyAkw8adY5APW2_itbgE3WnYI2lt5o0NtPk'
+OIDC_RP_CLIENT_SECRET= '4ZbM0GBZVisPA9YrBP3lFcr5'
 OIDC_OP_AUTHORIZATION_ENDPOINT ="https://accounts.google.com/o/oauth2/v2/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
-OIDC_OP_USER_ENDPOINT="https://openidconnect.googleapis.com/v1/userinfo",
+OIDC_OP_USER_ENDPOINT="https://openidconnect.googleapis.com/v1/userinfo"
 

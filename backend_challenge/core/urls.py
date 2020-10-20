@@ -2,9 +2,9 @@ from django.urls import path
 from .views import OrderListCreateAPIView
 
 
-
+app_name = 'core'
 urlpatterns = [
-    path('', OrderListCreateAPIView.as_view(), name="list")
+    path('order', OrderListCreateAPIView.as_view(), name="list")
    
 ]
 

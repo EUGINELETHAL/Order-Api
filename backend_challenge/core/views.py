@@ -8,10 +8,10 @@ class OrderListCreateAPIView(ListCreateAPIView):
     serializer_class = OrderSerializer
     
     def get_queryset(self):
-        return Order.objects.filter(customer=self.request.user)
+        return Order.objects.all()
 
     
     def perform_create(self, serializer):
-       serializer.save(customer=self.request.user)
+       serializer.save()
 
 

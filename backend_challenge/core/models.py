@@ -1,21 +1,22 @@
 from django.db import models
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
+from django.contrib.auth.models import User
 
-
-class Customer(OIDCAuthenticationBackend, models.Model):
+class Customer(models.Model):
     phone = models.CharField('phone', max_length=12, blank=True , default="")
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    def filter_users_by_claims(self, claims):
-        email = claims.get('email')
-        if not email:
-            return self.UserModel.objects.none()
+    # def filter_users_by_claims(self, claims):
+    #     email = claims.get('email')
+    #     if not email:
+    #         return self.UserModel.objects.none()
 
-        try:
-            customer = Customer.objects.get(email=email)
-            return customer.user
+    #     try:
+    #         customer = Customer.objects.get(email=email)
+    #         return customer.user
 
-        except Customer.DoesNotExist:
-            return self.UserModel.objects.none()
+    #     except Customer.DoesNotExist:
+    #         return self.UserModel.objects.none()
 
 
 

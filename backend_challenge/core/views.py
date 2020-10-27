@@ -2,6 +2,7 @@ from django.shortcuts import render
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from .serializers import OrderSerializer
 from .models import Order
+from django.http import HttpResponse
 
 # Create your views here.
 class OrderListCreateAPIView(ListCreateAPIView):
@@ -12,6 +13,13 @@ class OrderListCreateAPIView(ListCreateAPIView):
 
     
     def perform_create(self, serializer):
-       serializer.save()
+       serializer.save(customer=self.request.user)
+      
+
+def print_username(request):
+    user=request.user
+    print(user)
+    return HttpResponse('good')
+
 
 

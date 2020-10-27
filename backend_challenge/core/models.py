@@ -5,18 +5,10 @@ from django.contrib.auth.models import User
 class Customer(models.Model):
     phone = models.CharField('phone', max_length=12, blank=True , default="")
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-
-    # def filter_users_by_claims(self, claims):
-    #     email = claims.get('email')
-    #     if not email:
-    #         return self.UserModel.objects.none()
-
-    #     try:
-    #         customer = Customer.objects.get(email=email)
-    #         return customer.user
-
-    #     except Customer.DoesNotExist:
-    #         return self.UserModel.objects.none()
+    
+    def __str__(self):
+        return self.user.email
+    
 
 
 
@@ -33,8 +25,8 @@ class Order(TimeStampedModel):
     amount = models.PositiveIntegerField(default=0)
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
 
-    # def __str__(self):
-    #     return f"Order: {self.id} -customer: {self.customer.}"
+    def __str__(self):
+        return f"Order: {self.id} -customer: {self.customer}"
 
     class Meta:
         ordering = ["-added"]

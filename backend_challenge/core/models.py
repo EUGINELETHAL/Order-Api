@@ -26,7 +26,7 @@ class Order(TimeStampedModel):
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"Order: {self.id} -customer: {self.customer}"
+        return str(self.id)
 
     class Meta:
         ordering = ["-added"]

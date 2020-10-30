@@ -23,6 +23,7 @@ Redis
 | API Endpoint  | Description | Methods |
 | ------------- | ------------- | ------------- |
 | /oidc/authenticate/  | Authentication | GET  |
+  /api/v1/customer  | create customer  | POST |
 | /api/v1/order  | Get all orders   | GET  |
  /api/v1/order | Customer posts order  | GET  |
 

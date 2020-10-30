@@ -6,7 +6,18 @@ from rest_framework import status
 from django.urls import reverse
 
 
-        
+class OrderModelTest(TestCase):
+
+    def test_string_representation(self):
+        order= Order(id=2)
+        self.assertEqual(str(order), "2" )
+
+class CustomerModelTest(TestCase):
+
+    def test_string_representation(self):
+        user=User.objects.create(username="eugine",email="ochungeugine@gmail.com")
+        customer= Customer.objects.create(user=user)
+        self.assertEqual(str(customer), user.email)
 
 
 
@@ -32,6 +43,7 @@ class TestOrderAPI(APITestCase):
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Order.objects.count(), 1)
+        #  self.assertEqual(str(order), Order.id )
     
 
     def test_anonymous_user_cannot_create_order(self):
@@ -53,6 +65,7 @@ class TestCreate_Customer(APITestCase):
     url = '/api/v1/customer'
     def setUp(self):
         self.username = "eugine"
+        self.email='ochungeugine@gmil.com'
         self.user = User.objects.create_user(self.username)
         self.client.force_authenticate(user=self.user)
        
@@ -68,8 +81,8 @@ class TestCreate_Customer(APITestCase):
         response=self.client.post(self.url,data=data)
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Customer.objects.count(), 1)
-    
+        self.assertEqual(Customer.objects.count(), 1) 
+        
 
     def test_anonymous_user_cannot_create_customer(self):
         self.client.force_authenticate(user=None)

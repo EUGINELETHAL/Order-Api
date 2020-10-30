@@ -3,7 +3,7 @@ from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from django.contrib.auth.models import User
 
 class Customer(models.Model):
-    phone = models.CharField('phone', max_length=12, blank=True , default="")
+    phone = models.CharField('phone', max_length=12)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     
     def __str__(self):
@@ -22,7 +22,7 @@ class TimeStampedModel(models.Model):
 
 class Order(TimeStampedModel):
     item = models.CharField(max_length=200, )
-    amount = models.PositiveIntegerField(default=0)
+    amount = models.PositiveIntegerField(default=1)
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
 
     def __str__(self):
@@ -31,4 +31,6 @@ class Order(TimeStampedModel):
     class Meta:
         ordering = ["-added"]
 
-# Create your models here.
+
+
+

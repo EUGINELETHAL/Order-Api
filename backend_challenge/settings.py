@@ -81,12 +81,8 @@ WSGI_APPLICATION = 'backend_challenge.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'orders',
-        'USER':'lucy',
-        'PASSWORD':'postgres'
-       
-        
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 REST_FRAMEWORK = {

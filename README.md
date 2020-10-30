@@ -1,21 +1,21 @@
 [![Build Status](https://travis-ci.com/EUGINELETHAL/Backend-challenge.svg?branch=master)](https://travis-ci.com/EUGINELETHAL/Backend-challenge)[![](https://github.com/EUGINELETHAL/Backend-challenge/blob/master/coverage.svg)
 # ORDER-API
-Order-Api is a simple REST  API used to upload customrs orders.
-User Stories
+..Order-Api is a simple REST  API used to upload customrs orders.
+..User Stories
 Users authenticates via OAUTH2 and OpenidCOnnect(GOogleOAuth 2.0 )
 Customer creates order 
 Customers gets message after order created sucessfully(Asynchronous  Task)
 
 
 # Tools and Technologies
-Django 
-DjangoRest
-Travis(CI/CD)
-Heroku-Deployment
-AfricaisTalking-(SMSGATEWAY)
-Coverage
-Celery
-Redis
+ Django 
+2. DjangoRest
+3. Travis(CI/CD)
+4. Heroku-Deployment
+5. AfricaisTalking-(SMSGATEWAY)
+6. Coverage
+7. Celery
+8. Redis
 ## API ENDPOINTS
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/470df32a30646e961eb9)
@@ -29,9 +29,9 @@ Redis
 
 
 ## TODO
-Improve on TestCoverage
-Use pytest as the testing framework
-Implement Containerization using Docker
+.. Improve on TestCoverage
+.. Use pytest as the testing framework
+.. Implement Containerization using Docker
 
 
 ## Getting Started
@@ -63,7 +63,7 @@ To get started:
 
 
 ## Running the tests
- run python manage
+ python manage 
 ### Style Guide.
 PEP 8
 

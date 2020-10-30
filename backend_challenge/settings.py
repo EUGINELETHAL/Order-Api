@@ -19,12 +19,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+63moyr!(3^666l62(@^u$zt!s1)ofxg^*&nf8w#!o#!&@40ob'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -79,16 +78,17 @@ WSGI_APPLICATION = 'backend_challenge.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS')
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME':'orders',
-        'USER':'postgres',
-        'PASSWORD':'lucy',
-        'HOST':'localhost', # the missing piece of the puzzle 
-        'PORT': '', # optional, Ilucy
-       
-        
+        'NAME': config('DB_NAME'),
+        'USER': config('DB_USER'),
+        'PASSWORD': config('DB_PASSWORD'),
+        'HOST': config('DB_HOST'),
+        'PORT': '',
     }
 }
 REST_FRAMEWORK = {
@@ -158,13 +158,13 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-LOGIN_REDIRECT_URL = '/api/order'
+LOGIN_REDIRECT_URL = '/api/v1/customer'
 STATIC_URL = '/static/'
 django_heroku.settings(locals())
 OIDC_RP_SIGN_ALGO = "RS256"
 OIDC_OP_JWKS_ENDPOINT ="https://www.googleapis.com/oauth2/v3/certs"
-OIDC_RP_CLIENT_ID ='1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com'
-OIDC_RP_CLIENT_SECRET= '4ZbM0GBZVisPA9YrBP3lFcr5'
+OIDC_RP_CLIENT_ID =config('OIDC_RP_CLIENT_ID'),
+OIDC_RP_CLIENT_SECRET= config('OIDC_RP_CLIENT_SECRET'),
 OIDC_OP_AUTHORIZATION_ENDPOINT ="https://accounts.google.com/o/oauth2/v2/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT="https://openidconnect.googleapis.com/v1/userinfo"

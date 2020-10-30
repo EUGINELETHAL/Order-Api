@@ -18,3 +18,4 @@ before_script:
 
 script:
   - python manage.py test
+  # coverage run --omit=*/venv/*,*/migrations/* manage.py test

@@ -19,9 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('oidc/', include('mozilla_django_oidc.urls')),
-    path('social-auth/',include('social_django.urls', namespace='social')),
-    path('api/',include('backend_challenge.core.urls',  namespace='core'))
+   path('social-auth/',include('social_django.urls', namespace='social')),
+    path('api/v1/',include('backend_challenge.core.urls',  namespace='core'))
     
 ]
 

@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 
 from pathlib import Path
 import django_heroku
-from decouple import config,Csv
+from decouple import config, Csv
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -35,10 +35,17 @@ SECRET_KEY = config('SECRET_KEY')
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'mozilla_django_oidc',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'backend_challenge.authentication',
+    'backend_challenge.core',
+    'django',
+    'django_extensions',
+    'rest_framework',
+    'social_django'
 ]
 
 MIDDLEWARE = [
@@ -75,6 +82,12 @@ WSGI_APPLICATION = 'backend_challenge.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
+        # other authentication classes, if needed
+    ],
+}
 
 
 
@@ -97,6 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
@@ -110,9 +124,27 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTHENTICATION_BACKENDS = (
+    'mozilla_django_oidc.auth.OIDCAuthenticationBackend',
+    'social_core.backends.open_id.OpenIdAuth',
+    'social_core.backends.google.GoogleOpenId',
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.google.GoogleOAuth',
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.yahoo.YahooOpenId',
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-
+LOGIN_REDIRECT_URL = '/api/order'
 STATIC_URL = '/static/'
 django_heroku.settings(locals())
+OIDC_RP_SIGN_ALGO = "RS256"
+OIDC_OP_JWKS_ENDPOINT ="https://www.googleapis.com/oauth2/v3/certs"
+OIDC_RP_CLIENT_ID ='1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com'
+OIDC_RP_CLIENT_SECRET= '4ZbM0GBZVisPA9YrBP3lFcr5'
+OIDC_OP_AUTHORIZATION_ENDPOINT ="https://accounts.google.com/o/oauth2/v2/auth"
+OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
+OIDC_OP_USER_ENDPOINT="https://openidconnect.googleapis.com/v1/userinfo"
+

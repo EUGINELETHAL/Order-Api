@@ -5,14 +5,6 @@ from .models import Order, Customer
 from rest_framework import status
 from django.urls import reverse
 
-class Test_Social_Authentication(APITestCase):
-    """Tests social authentication"""
-    url = '/oidc/authenticate/'
-
-    def test_user_successful_social_login(self):
-        """Test for successful user login"""
-        response = self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
 
         
 

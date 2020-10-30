@@ -85,8 +85,8 @@ DATABASES = {
         'NAME':orders,
         'USER':lucy,
         'PASSWORD':orders,
-        'HOST':,
-        'PORT': '',
+        'HOST':127.0.0.1,
+        
     }
 }
 REST_FRAMEWORK = {

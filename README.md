@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/EUGINELETHAL/Backend-challenge.svg?branch=master)](https://travis-ci.com/EUGINELETHAL/Backend-challenge)
 # ORDER-API
 Order-Api is a simple REST  API used to upload customrs orders.
 User Stories

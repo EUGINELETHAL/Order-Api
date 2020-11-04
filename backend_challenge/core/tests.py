@@ -4,7 +4,8 @@ from django.contrib.auth.models import User
 from .models import Order, Customer
 from rest_framework import status
 from django.urls import reverse
-
+from .import tasks
+from .tasks import *
 
 class OrderModelTest(TestCase):
 
@@ -60,6 +61,21 @@ class TestOrderAPI(APITestCase):
         response=self.client.post(self.url, data=data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
+    def test_send_sms(self):
+        data= {
+            'item': 'books',
+            'amount': 4,
+            'customer': self.customer.id
+        }
+        response=self.client.post(self.url, data=data)
+        message = 'Dear customer You have successfully placed an order.Your order ID is 1.'
+        res =sms.send(message,["+254728826517"])
+        recipients = res['SMSMessageData']['Recipients']
+        assert len(recipients) == 1
+        assert recipients[0]['status'] == 'Success'
+
+    
+
 
 class TestCreate_Customer(APITestCase):
     url = '/api/v1/customer'
@@ -97,6 +113,8 @@ class TestCreate_Customer(APITestCase):
         response=self.client.post(self.url, data=data)
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
     
+        
 
 

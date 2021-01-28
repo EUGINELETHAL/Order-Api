@@ -75,8 +75,6 @@ TEMPLATES = [
 WSGI_APPLICATION = 'backend_challenge.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 ALLOWED_HOSTS=['*']
 # ALLOWED_HOSTS = config('ALLOWED_HOSTS')
@@ -96,7 +94,7 @@ REST_FRAMEWORK = {
         'mozilla_django_oidc.contrib.drf.OIDCAuthentication',
         'rest_framework.authentication.SessionAuthentication',
        
-        # other authentication classes, if needed
+        
     ],
      'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer',

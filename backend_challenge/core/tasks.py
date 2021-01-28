@@ -19,7 +19,7 @@ def send_sms(order_id):
     response=sms.send(message,["+254728826517"])
     return response
 #    sudo service redis-server stop
-# $ celery -Abackend_challenge worker -l INFO
+# $ celery -A backend_challenge worker -l INFO
 
 
 

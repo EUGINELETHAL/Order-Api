@@ -1,10 +1,11 @@
 [![Build Status](https://travis-ci.com/EUGINELETHAL/Backend-challenge.svg?branch=master)](https://travis-ci.com/EUGINELETHAL/Backend-challenge)[![](https://github.com/EUGINELETHAL/Backend-challenge/blob/master/coverage.svg)
 # ORDER-API
-..Order-Api is a simple REST  API used to upload customrs orders.
-..User Stories
-Users authenticates via OAUTH2 and OpenidCOnnect(GOogleOAuth 2.0 )
-Customer creates order 
-Customers gets message after order created sucessfully(Asynchronous  Task)
+..Order-Api is a simple REST  API used to upload customers orders.  <br />  <br />
+
+####User Stories  <br /> <br /> 
+Users authenticates via OAUTH2 and OpenidCOnnect(GOogleOAuth 2.0 ) <br />
+Customer creates order  <br />
+Customers gets message after order created sucessfully(Asynchronous  Task) <br />
 
 
 # Tools and Technologies

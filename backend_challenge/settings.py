@@ -36,12 +36,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'drf_yasg',
     'backend_challenge.authentication',
     'backend_challenge.core',
     'django',
     'django_extensions',
     'rest_framework',
-    'social_django'
+    'social_django',
+    
 ]
 
 MIDDLEWARE = [
@@ -156,7 +158,7 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-LOGIN_REDIRECT_URL = '/api/v1/order'
+LOGIN_REDIRECT_URL = '/api/v1/customer'
 STATIC_URL = '/static/'
 
 OIDC_RP_SIGN_ALGO = "RS256"

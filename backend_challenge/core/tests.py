@@ -1,3 +1,4 @@
+import json
 from django.test import TestCase
 from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
@@ -7,18 +8,12 @@ from django.urls import reverse
 from .import tasks
 from .tasks import *
 
-class OrderModelTest(TestCase):
+# class OrderModelTest(TestCase):
 
-    def test_string_representation(self):
-        order= Order(id=2)
-        self.assertEqual(str(order), "2" )
+#     def test_string_representation(self):
+#         order= Order(id=2)
+#         self.assertEqual(str(order), "2" )
 
-class CustomerModelTest(TestCase):
-
-    def test_string_representation(self):
-        user=User.objects.create(username="eugine",email="ochungeugine@gmail.com")
-        customer= Customer.objects.create(user=user)
-        self.assertEqual(str(customer), user.email)
 
 
 
@@ -70,9 +65,19 @@ class TestOrderAPI(APITestCase):
         response=self.client.post(self.url, data=data)
         message = 'Dear customer You have successfully placed an order.Your order ID is 1.'
         res =sms.send(message,["+254728826517"])
+        print(res)
         recipients = res['SMSMessageData']['Recipients']
         assert len(recipients) == 1
         assert recipients[0]['status'] == 'Success'
+    
+    def test_string_representation(self):
+        order=Order.objects.create(item="books", amount=4, customer=self.customer)
+        self.assertEqual(str(order), "3" )
+
+    def test_list_orders(self):
+        response = self.client.get(self.url)
+        self.assertTrue(len(json.loads(response.content)) == Order.objects.count())
+
 
     
 
@@ -113,6 +118,14 @@ class TestCreate_Customer(APITestCase):
         response=self.client.post(self.url, data=data)
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+class CustomerModelTest(TestCase):
+
+    def test_string_representation(self):
+        user=User.objects.create(username="eugine",email="ochungeugine@gmail.com")
+        customer= Customer.objects.create(user=user)
+        self.assertEqual(str(customer), user.email)
+
 
     
         

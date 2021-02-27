@@ -7,6 +7,7 @@ from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import NotFound
 # import africastalking
 # username = "sandbox"    # use 'sandbox' for development in the test environment
 # api_key = "c24b10b049468747684e01f846e1a7420e106584c144d187b62d39fe667b6a78"
@@ -20,9 +21,10 @@ class Customer_Create(APIView):
    create a new customer
     """
     def post(self, request):
-        serializer = CustomerSerializer(data=request.data)
+        serializer = CustomerSerializer(data=request.data,context={'request': request,'user':request.user})
+        print(serializer)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # Create your views here.
@@ -35,7 +37,14 @@ class OrderListCreateAPIView(ListCreateAPIView):
 
     
     def perform_create(self, serializer):
-        serializer.save(customer=self.request.user.customer)
+        try:
+            customer=self.request.user.customer
+        except Customer.DoesNotExist:
+            raise NotFound('Please Create Customer Profile')
+
+        if serializer.is_valid(raise_exception=True):
+            serializer.save(customer=customer)
+      
       
 
 

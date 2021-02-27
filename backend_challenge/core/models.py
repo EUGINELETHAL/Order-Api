@@ -3,8 +3,10 @@ from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from django.contrib.auth.models import User
 
 class Customer(models.Model):
-    phone = models.CharField('phone', max_length=12)
+    phone = models.PositiveIntegerField('phone')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
+    code= models.CharField('code', max_length=15)
+    # https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
     
     def __str__(self):
         return self.user.email
@@ -21,9 +23,9 @@ class TimeStampedModel(models.Model):
 
 
 class Order(TimeStampedModel):
-    item = models.CharField(max_length=200, )
-    amount = models.PositiveIntegerField(default=1)
-    customer = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    item = models.CharField('item',max_length=200 )
+    amount = models.PositiveIntegerField()
+    customer = models.ForeignKey('Customer',related_name='orders',on_delete=models.CASCADE)
 
     def __str__(self):
         return str(self.id)

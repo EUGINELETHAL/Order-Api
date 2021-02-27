@@ -21,29 +21,32 @@ class Customer_Create(APIView):
    create a new customer
     """
     def post(self, request):
-        serializer = CustomerSerializer(data=request.data,context={'request': request,'user':request.user})
+        
+        serializer_context = {'request': request, 'user':self.request.user}
+        serializer = CustomerSerializer(data=request.data,context=serializer_context)
         print(serializer)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 # Create your views here.
 class OrderListCreateAPIView(ListCreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
     
     def get_queryset(self):
-        return Order.objects.all()
-
-    
-    def perform_create(self, serializer):
         try:
             customer=self.request.user.customer
         except Customer.DoesNotExist:
             raise NotFound('Please Create Customer Profile')
+        return self.queryset.filter(customer=customer)
+        
 
+    
+    def perform_create(self, serializer):
+      
         if serializer.is_valid(raise_exception=True):
-            serializer.save(customer=customer)
+            serializer.save()
       
       
 

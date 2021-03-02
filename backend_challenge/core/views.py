@@ -8,11 +8,24 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import NotFound
-# import africastalking
-# username = "sandbox"    # use 'sandbox' for development in the test environment
-# api_key = "c24b10b049468747684e01f846e1a7420e106584c144d187b62d39fe667b6a78"
-# africastalking.initialize(username, api_key)
+import africastalking
+from.models import Order
+username = "sandbox"    # use 'sandbox' for development in the test environment
+api_key = "4b687203c43211be0e43105531bf92d7d8ad44d778bdfcf869988c465049291e"
+africastalking.initialize(username, api_key)
+sms = africastalking.SMS
 
+def send_sms(order_id):
+    """
+  
+    Task to send an sms notification when an order is
+    successfully created.
+    """
+    order = Order.objects.get(id=order_id)
+   
+    message = f'Dear {order.customer.user} You have successfully placed an order.Your order ID is {order.id}.'
+    response=sms.send(message,["+254728826517"])
+    return response
 
 class Customer_Create(APIView):
     permission_classes = [IsAuthenticated]
@@ -27,7 +40,8 @@ class Customer_Create(APIView):
         print(serializer)
         if serializer.is_valid(raise_exception=True):
             serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # Create your views here.
 class OrderListCreateAPIView(ListCreateAPIView):
     serializer_class = OrderSerializer
@@ -46,7 +60,8 @@ class OrderListCreateAPIView(ListCreateAPIView):
     def perform_create(self, serializer):
       
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            order=serializer.save()
+            send_sms(order.id)
       
       
 

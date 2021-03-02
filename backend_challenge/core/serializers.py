@@ -1,13 +1,15 @@
 from rest_framework import serializers
 from .models import Order, Customer
+from django.contrib.auth.models import User
+
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-
+    user=serializers.PrimaryKeyRelatedField(read_only=True,source='user.email')
     class Meta:
         model = Customer
         fields = ("phone", "code","user")
-        read_only_fields = ['user']
+    
 
     def create(self, validated_data):
         user = self.context.get('user', None)

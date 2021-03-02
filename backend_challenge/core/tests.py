@@ -96,7 +96,8 @@ class TestCreate_Customer(APITestCase):
     def test_authenticated_user_can_create_customer(self):
         data= {
             'user':self.user,
-            'phone': '0728826517'
+            'phone': 728826517,
+            'code': '0728826517'
         }
         
         response=self.client.post(self.url,data=data)
@@ -114,6 +115,7 @@ class TestCreate_Customer(APITestCase):
         data= {
             'user':self.user,
             'phone':''
+            
         }
         response=self.client.post(self.url, data=data)
         print(response.data)
@@ -123,7 +125,7 @@ class CustomerModelTest(TestCase):
 
     def test_string_representation(self):
         user=User.objects.create(username="eugine",email="ochungeugine@gmail.com")
-        customer= Customer.objects.create(user=user)
+        customer= Customer.objects.create(user=user,phone=733333)
         self.assertEqual(str(customer), user.email)
 
 

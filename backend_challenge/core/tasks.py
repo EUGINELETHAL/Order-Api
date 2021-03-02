@@ -2,7 +2,7 @@ from celery import shared_task
 import africastalking
 from.models import Order
 username = "sandbox"    # use 'sandbox' for development in the test environment
-api_key = "c24b10b049468747684e01f846e1a7420e106584c144d187b62d39fe667b6a78"
+api_key = "4b687203c43211be0e43105531bf92d7d8ad44d778bdfcf869988c465049291e"
 africastalking.initialize(username, api_key)
 sms = africastalking.SMS
 

@@ -4,11 +4,11 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
 class Customer(models.Model):
-    phone = phone_number = models.CharField(max_length=12,blank=True,null=True,
+    phone= models.CharField(max_length=13,blank=True,null=True,
     validators=[
       RegexValidator(
-        regex=r'^254\d{9}$',
-        message="Phone number must be entered in the format '254234567892'. Up to 12 digits allowed with no + character"
+        regex=r'^\+254\d{9}$',
+        message="Phone number must be entered in the format '+254234567892'. Up to 12 digits allowed with no"
       ),
     ],
   )

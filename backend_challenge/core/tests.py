@@ -1,18 +1,24 @@
 import json
+import pytest
 from django.test import TestCase
-from rest_framework.test import APITestCase
 from django.contrib.auth.models import User
 from .models import Order, Customer
 from rest_framework import status
 from django.urls import reverse
 from .import tasks
 from .tasks import *
+from rest_framework.test import APITestCase
 
 # class OrderModelTest(TestCase):
 
 #     def test_string_representation(self):
 #         order= Order(id=2)
 #         self.assertEqual(str(order), "2" )
+@pytest.mark.django_db
+def test_user_create():
+  User.objects.create_user('john', 'lennon@thebeatles.com', 'johnpassword')
+  assert User.objects.count() == 1
+
 
 
 

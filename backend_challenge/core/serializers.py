@@ -28,12 +28,8 @@ class OrderSerializer(serializers.ModelSerializer):
         model = Order
         fields = ("item", "amount","customer_phone","send_sms","customer")
 
-    def get_customer_phone(self, obj):
-        return obj.customer.phone
 
-    def get_send_sms(self, obj):
-        message = f'Dear {obj.customer.user} You have successfully placed an order.Your order ID is {obj.id}.An SMS was sent confirming receipt of your order'
-        return message
+  
     def create(self, validated_data):
         request = self.context.get('request', None)
         if request is None:

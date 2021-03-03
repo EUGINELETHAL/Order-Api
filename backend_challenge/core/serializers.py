@@ -21,12 +21,10 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
-    customer_phone = serializers.SerializerMethodField()
-    send_sms=serializers.SerializerMethodField()
 
     class Meta:
         model = Order
-        fields = ("item", "amount","customer_phone","send_sms","customer")
+        fields = ("item", "amount","customer")
 
 
   

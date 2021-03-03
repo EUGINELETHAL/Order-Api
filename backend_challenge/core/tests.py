@@ -29,7 +29,7 @@ class TestOrderAPI(APITestCase):
         self.username = "eugine"
         self.user = User.objects.create_user(self.username)
         self.client.force_authenticate(user=self.user)
-        self.customer=Customer.objects.create(user=self.user,phone="0728825517")
+        self.customer=Customer.objects.create(user=self.user,phone="+254728826517")
        
        
 
@@ -102,7 +102,7 @@ class TestCreate_Customer(APITestCase):
     def test_authenticated_user_can_create_customer(self):
         data= {
             'user':self.user,
-            'phone': 728826517,
+            'phone': '+254728826517',
             'code': '0728826517'
         }
         
@@ -126,6 +126,16 @@ class TestCreate_Customer(APITestCase):
         response=self.client.post(self.url, data=data)
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_create_crustomer_with_no_code(self):
+        data= {
+            'user':self.user,
+            'code':''
+            
+        }
+        response=self.client.post(self.url, data=data)
+        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
 
 class CustomerModelTest(TestCase):
 

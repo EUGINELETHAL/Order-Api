@@ -1,3 +1,4 @@
+from django.conf import settings
 from celery import shared_task
 import africastalking
 from.models import Order
@@ -13,10 +14,10 @@ def send_sms(order_id):
     Task to send an sms notification when an order is
     successfully created.
     """
-    order = Order.objects.get(id=order_id)
+    order = Order.objects.select_related('customer').get(id=order_id)
    
     message = f'Dear {order.customer.user} You have successfully placed an order.Your order ID is {order.id}.'
-    response=sms.send(message,["+254728826517"])
+    response=sms.send(message,[order.customer.phone])
     return response
 #    sudo service redis-server stop
 # $ celery -A backend_challenge worker -l INFO

@@ -5,19 +5,13 @@ from django.contrib.auth.models import User
 
 
 class CustomerSerializer(serializers.ModelSerializer):
-    user=serializers.PrimaryKeyRelatedField(read_only=True,source='user.email')
+   
     class Meta:
         model = Customer
-        fields = ("phone", "code","user")
+        fields = ("phone", "code")
     
 
-    def create(self, validated_data):
-        user = self.context.get('user', None)
-        print(user.email)
-        new_customer= Customer.objects.create(**validated_data,user=user)
-        print(new_customer)
-        '''Create a new Customer instance, given the accepted data.'''
-        return new_customer
+    
 
 class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)

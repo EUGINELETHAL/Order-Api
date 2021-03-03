@@ -22,10 +22,10 @@ def send_sms(order_id):
     Task to send an sms notification when an order is
     successfully created.
     """
-    order = Order.objects.get(id=order_id)
+    order = Order.objects.select_related('customer').get(id=order_id)
    
     message = f'Dear {order.customer.user} You have successfully placed an order.Your order ID is {order.id}.'
-    response=sms.send(message,["+254728826517"])
+    response=sms.send(message,[order.customer.phone])
     print(response)
     return response
 
@@ -36,12 +36,9 @@ class Customer_Create(APIView):
    create a new customer
     """
     def post(self, request):
-        
-        serializer_context = {'request': request, 'user':self.request.user}
-        serializer = CustomerSerializer(data=request.data,context=serializer_context)
-        print(serializer)
+        serializer = CustomerSerializer(data=request.data)
         if serializer.is_valid(raise_exception=True):
-            serializer.save()
+            serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 # Create your views here.

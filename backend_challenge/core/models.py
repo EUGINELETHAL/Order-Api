@@ -14,7 +14,7 @@ class Customer(models.Model):
   )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     code= models.CharField('code', max_length=15)
-    # https://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
+    # validationhttps://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
     
     def __str__(self):
         return self.user.email

@@ -3,8 +3,16 @@ from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
-class Customer(models.Model):
-    phone= models.CharField(max_length=13,blank=True,null=True,
+
+class TimeStampedModel(models.Model):
+    added = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class Customer(TimeStampedModel):
+    phone= models.CharField(max_length=13,
     validators=[
       RegexValidator(
         regex=r'^\+254\d{9}$',
@@ -22,12 +30,7 @@ class Customer(models.Model):
 
 
 
-class TimeStampedModel(models.Model):
-    added = models.DateTimeField(auto_now_add=True)
-    edited = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        abstract = True
 
 
 class Order(TimeStampedModel):

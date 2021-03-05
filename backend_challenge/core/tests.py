@@ -20,6 +20,59 @@ def test_user_create():
   assert User.objects.count() == 1
 
 
+class TestCreate_Customer(APITestCase):
+    url = '/api/v1/customer'
+    def setUp(self):
+        self.username = "eugine"
+        self.email='ochungeugine@gmil.com'
+        self.user = User.objects.create_user(self.username)
+        self.client.force_authenticate(user=self.user)
+       
+       
+
+
+    def test_authenticated_user_can_create_customer(self):
+        data= {
+            'user':self.user,
+            'phone': '+254728826517',
+            'code': '0728826517'
+        }
+        
+        response=self.client.post(self.url,data=data)
+        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(Customer.objects.count(), 1) 
+        
+
+    def test_anonymous_user_cannot_create_customer(self):
+        self.client.force_authenticate(user=None)
+        response=self.client.get(self.url)
+        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
+
+    def test_create_crustomer_with_no_phone(self):
+        data= {
+            'user':self.user,
+            'phone':'',
+            'code': '0728826517'
+            
+        }
+        response=self.client.post(self.url, data=data)
+        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+    def test_create_customer_with_no_code(self):
+        data= {
+            'user':self.user,
+            'code':'',
+            'phone': '+254728826517',
+            
+        }
+        response=self.client.post(self.url, data=data)
+        print(response.data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+
+
+   
 
 
 
@@ -84,65 +137,24 @@ class TestOrderAPI(APITestCase):
         response = self.client.get(self.url)
         self.assertTrue(len(json.loads(response.content)) == Order.objects.count())
 
+# @pytest.mark.django_db
+# def test_send_new_event_service_called(
+#    mocker, default_event_data, api_client
+# ):
+#    mock_send_new_event = mocker.patch(
+#        'service.ThirdPartyService.send_new_event'
+#    )
+#    response = api_client.post(
+#        'create-service', data=default_event_data
+#    )
 
+#    assert response.status_code == 201
+#    assert response.data['id']
+#    mock_send_new_event.assert_called_with(
+#        event_id=response.data['id']
+#    )
     
 
-
-class TestCreate_Customer(APITestCase):
-    url = '/api/v1/customer'
-    def setUp(self):
-        self.username = "eugine"
-        self.email='ochungeugine@gmil.com'
-        self.user = User.objects.create_user(self.username)
-        self.client.force_authenticate(user=self.user)
-       
-       
-
-
-    def test_authenticated_user_can_create_customer(self):
-        data= {
-            'user':self.user,
-            'phone': '+254728826517',
-            'code': '0728826517'
-        }
-        
-        response=self.client.post(self.url,data=data)
-        print(response.data)
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(Customer.objects.count(), 1) 
-        
-
-    def test_anonymous_user_cannot_create_customer(self):
-        self.client.force_authenticate(user=None)
-        response=self.client.get(self.url)
-        self.assertEqual(response.status_code, status.HTTP_401_UNAUTHORIZED)
-
-    def test_create_crustomer_with_no_phone(self):
-        data= {
-            'user':self.user,
-            'phone':''
-            
-        }
-        response=self.client.post(self.url, data=data)
-        print(response.data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-    def test_create_crustomer_with_no_code(self):
-        data= {
-            'user':self.user,
-            'code':''
-            
-        }
-        response=self.client.post(self.url, data=data)
-        print(response.data)
-        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
-
-
-class CustomerModelTest(TestCase):
-
-    def test_string_representation(self):
-        user=User.objects.create(username="eugine",email="ochungeugine@gmail.com")
-        customer= Customer.objects.create(user=user,phone=733333)
-        self.assertEqual(str(customer), user.email)
 
 
     

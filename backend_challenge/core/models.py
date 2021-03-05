@@ -11,7 +11,7 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
-class Customer(TimeStampedModel):
+class Customer(models.Model):
     phone= models.CharField(max_length=13,
     validators=[
       RegexValidator(

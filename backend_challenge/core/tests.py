@@ -23,10 +23,13 @@ class TestCreate_Customer(APITestCase):
     url = '/api/v1/customer'
     def setUp(self):
         self.username = "eugine"
+        self.username1 = "egine"
         self.email='ochungeugine@gmil.com'
         self.user = User.objects.create_user(self.username)
+        self.user2 = User.objects.create_user(self.username1)
         self.client.force_authenticate(user=self.user)
-       
+
+   
        
 
 
@@ -70,6 +73,8 @@ class TestCreate_Customer(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
 
 
+    
+
 
    
 
@@ -82,6 +87,7 @@ class TestOrderAPI(APITestCase):
         self.user = User.objects.create_user(self.username)
         self.client.force_authenticate(user=self.user)
         self.customer=Customer.objects.create(user=self.user,phone="+254728826517",code="728826517")
+
        
        
 
@@ -130,10 +136,11 @@ class TestOrderAPI(APITestCase):
     
     def test_string_representation(self):
         order=Order.objects.create(item="books", amount=4, customer=self.customer)
-        self.assertEqual(str(order), "3" )
+        self.assertEqual(str(order), "2" )
 
     def test_list_orders(self):
         response = self.client.get(self.url)
+        print(response)
         self.assertTrue(len(json.loads(response.content)) == Order.objects.count())
 
 # @pytest.mark.django_db

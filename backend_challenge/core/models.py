@@ -11,7 +11,7 @@ class TimeStampedModel(models.Model):
     class Meta:
         abstract = True
 
-class Customer(models.Model):
+class Customer(TimeStampedModel):
     phone= models.CharField(max_length=13,
     validators=[
       RegexValidator(
@@ -22,6 +22,7 @@ class Customer(models.Model):
   )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     code= models.CharField('code', max_length=15)
+   
     # validationhttps://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
     
     def __str__(self):

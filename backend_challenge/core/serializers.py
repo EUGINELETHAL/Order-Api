@@ -1,22 +1,39 @@
 from rest_framework import serializers
-from .models import Order,Customer
+from .models import Order, Customer
+from django.contrib.auth.models import User
+from rest_framework.exceptions import ValidationError
+
 
 class CustomerSerializer(serializers.ModelSerializer):
-     class Meta:
+   
+    class Meta:
         model = Customer
-        fields = ("phone",)
+        fields = ("phone", "code")
+    
+
+    
 
 class OrderSerializer(serializers.ModelSerializer):
-    customer_phone = serializers.SerializerMethodField()
-    send_sms=serializers.SerializerMethodField()
+    customer = CustomerSerializer(read_only=True)
 
     class Meta:
         model = Order
-        fields = ("item", "amount","customer_phone","send_sms")
+        fields = ("item", "amount","customer")
+    def validate(self, data):
+        if data.get('customer') is None:
+            raise serializers.ValidationError(
+                    'Please Update your profile details'
+                )
 
-    def get_customer_phone(self, obj):
-        return obj.customer.phone
+        return data
 
-    def get_send_sms(self, obj):
-        message = f'Dear {obj.customer.user} You have successfully placed an order.Your order ID is {obj.id}.An SMS was sent confirming receipt of your order'
-        return message
+  
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        if request is None:
+            return False
+        
+        customer=request.user.customer
+        print(customer)
+        '''Create a new Customer instance, given the accepted data.'''
+        return Order.objects.create(**validated_data,customer=customer)

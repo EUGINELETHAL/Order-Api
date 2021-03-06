@@ -7,11 +7,11 @@ from django.http import HttpResponse
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-# import africastalking
-# username = "sandbox"    # use 'sandbox' for development in the test environment
-# api_key = "c24b10b049468747684e01f846e1a7420e106584c144d187b62d39fe667b6a78"
-# africastalking.initialize(username, api_key)
+from rest_framework.exceptions import NotFound
+from .tasks import send_sms
 
+
+    
 
 class Customer_Create(APIView):
     permission_classes = [IsAuthenticated]
@@ -21,7 +21,7 @@ class Customer_Create(APIView):
     """
     def post(self, request):
         serializer = CustomerSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save(user=request.user)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -29,13 +29,21 @@ class Customer_Create(APIView):
 class OrderListCreateAPIView(ListCreateAPIView):
     serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
+    queryset = Order.objects.all()
     
     def get_queryset(self):
-        return Order.objects.all()
+        try:
+            customer=self.request.user.customer
+        except Customer.DoesNotExist:
+            raise NotFound('Please Create Customer Profile')
+        return self.queryset.filter(customer=customer)
+        
 
     
     def perform_create(self, serializer):
-        serializer.save(customer=self.request.user.customer)
+        if serializer.is_valid(raise_exception=True):
+            order=serializer.save()
+           
       
 
 

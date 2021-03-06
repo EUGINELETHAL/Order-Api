@@ -7,12 +7,13 @@ from django.urls import reverse
 from .import tasks
 from .tasks import *
 from rest_framework.test import APITestCase
-
+from django.core.cache import cache
 
 class TestCustomer(APITestCase):
     """ class to test the profile models"""
 
     def setUp(self):
+        cache.clear()
         """ Setup some code that is used by the unittests"""
         self.email = 'serem@gmail.com'
         self.username = 'testing'

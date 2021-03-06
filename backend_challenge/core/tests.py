@@ -7,7 +7,7 @@ from django.urls import reverse
 from .import tasks
 from .tasks import *
 from rest_framework.test import APITestCase
-
+from django.core.cache import cache
 # class OrderModelTest(TestCase):
 
 #     def test_string_representation(self):
@@ -29,8 +29,8 @@ class TestCreate_Customer(APITestCase):
         self.user2 = User.objects.create_user(self.username1)
         self.client.force_authenticate(user=self.user)
 
-   
-       
+    def tearDown(self):
+        cache.clear()
 
 
     def test_authenticated_user_can_create_customer(self):
@@ -81,13 +81,28 @@ class TestCreate_Customer(APITestCase):
 
 
 class TestOrderAPI(APITestCase):
+    @classmethod
+    def setUpClass(cls):
+        print('setupClass')
+
+    @classmethod
+    def tearDownClass(cls):
+        cache.clear()
+        print('teardownClass')
+
     url = '/api/v1/order'
     def setUp(self):
         self.username = "eugine"
+        self.username1 = "eugine1"
         self.user = User.objects.create_user(self.username)
+        self.user1 = User.objects.create_user(self.username1)
         self.client.force_authenticate(user=self.user)
         self.customer=Customer.objects.create(user=self.user,phone="+254728826517",code="728826517")
+        self.customer2=Customer.objects.create(user=self.user1,phone="028826517",code="728826517")
+        print(self.customer2)
 
+    def tearDown(self):
+        cache.clear()
        
        
 
@@ -97,8 +112,19 @@ class TestOrderAPI(APITestCase):
         data= {
             'item': 'books',
             'amount': 4,
-            'customer': self.customer
+            'customer': self.customer.id
         }
+        response=self.client.post(self.url, data=data)
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+
+    def test_authenticated_user_with_no_profile(self):
+        
+        data= {
+            'item': 'books',
+            'amount': 4,
+            'customer': self.customer2
+        }
+        print(self.customer2)
         response=self.client.post(self.url, data=data)
         print(response.data)
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
@@ -136,7 +162,7 @@ class TestOrderAPI(APITestCase):
     
     def test_string_representation(self):
         order=Order.objects.create(item="books", amount=4, customer=self.customer)
-        self.assertEqual(str(order), "2" )
+        self.assertEqual(str(order), "3" )
 
     def test_list_orders(self):
         response = self.client.get(self.url)

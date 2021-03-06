@@ -3,8 +3,16 @@ from mozilla_django_oidc.auth import OIDCAuthenticationBackend
 from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 
-class Customer(models.Model):
-    phone= models.CharField(max_length=13,blank=True,null=True,
+
+class TimeStampedModel(models.Model):
+    added = models.DateTimeField(auto_now_add=True)
+    edited = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        abstract = True
+
+class Customer(TimeStampedModel):
+    phone= models.CharField(max_length=13,
     validators=[
       RegexValidator(
         regex=r'^\+254\d{9}$',
@@ -14,6 +22,7 @@ class Customer(models.Model):
   )
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     code= models.CharField('code', max_length=15)
+   
     # validationhttps://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
     
     def __str__(self):
@@ -22,12 +31,7 @@ class Customer(models.Model):
 
 
 
-class TimeStampedModel(models.Model):
-    added = models.DateTimeField(auto_now_add=True)
-    edited = models.DateTimeField(auto_now=True)
 
-    class Meta:
-        abstract = True
 
 
 class Order(TimeStampedModel):

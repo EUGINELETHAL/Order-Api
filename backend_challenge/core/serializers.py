@@ -1,30 +1,29 @@
-from rest_framework import serializers
-from .models import Order, Customer
 from django.contrib.auth.models import User
-from rest_framework.exceptions import ValidationError
-from rest_framework.exceptions import APIException
-from rest_framework.exceptions import NotFound
+from rest_framework import serializers
+from rest_framework.exceptions import APIException, NotFound, ValidationError
+
+from .models import Customer, Order
+
 
 class CustomerProfileUnavailable(APIException):
     status_code = 400
-    default_detail = 'Create CustomerProfile'
-    default_code = 'service_unavailable'
+    default_detail = "Create CustomerProfile"
+    default_code = "service_unavailable"
+
 
 class CustomerSerializer(serializers.ModelSerializer):
-   
     class Meta:
         model = Customer
         fields = ("phone", "code")
-    
 
-    
 
 class OrderSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)
 
     class Meta:
         model = Order
-        fields = ("item", "amount","customer")
+        fields = ("item", "amount", "customer")
+
     # def validate(self, data):
     #     if not data.get('customer'):
     #         raise serializers.ValidationError(
@@ -45,17 +44,17 @@ class OrderSerializer(serializers.ModelSerializer):
     #     SubEvent.clean_items(event, [item['item'] for item in full_data.get('subeventitem_set', [])])
     #     SubEvent.clean_variations(event, [item['variation'] for item in full_data.get('subeventitemvariation_set', [])])
     #     return data
-  
+
     def create(self, validated_data):
-        request = self.context.get('request', None)
+        request = self.context.get("request", None)
         if request is None:
             return False
-        if 'customer' not in validated_data:
+        if "customer" not in validated_data:
             try:
-                validated_data['customer']=request.user.customer
+                validated_data["customer"] = request.user.customer
             except Customer.DoesNotExist:
-                raise  CustomerProfileUnavailable()
-       
-        '''Create a new Customer instance, given the accepted data.'''
-       
+                raise CustomerProfileUnavailable()
+
+        """Create a new Customer instance, given the accepted data."""
+
         return Order.objects.create(**validated_data)

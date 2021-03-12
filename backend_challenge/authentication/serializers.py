@@ -5,7 +5,7 @@
 
 
 # class CourseSerializer(serializers.ModelSerializer):
-    
+
 #     class Meta:
 #         model = Course
 #         fields = ('id', 'subject', 'title', 'slug', 'overview', 'created',)
@@ -13,14 +13,14 @@
 
 # class SubjectSerializer(serializers.ModelSerializer):
 #     courses = CourseSerializer(many=True, read_only=True)
-    
+
 #     class Meta:
 #         model = Subject
 #         fields = ('id', 'title', 'slug','courses')
 
 
 # class ChoiceSerializer(serializers.ModelSerializer):
-    
+
 #     class Meta:
 #         model = Choice
 #         fields = ('choice','is_correct')
@@ -32,7 +32,7 @@
 #     class Meta:
 #         model = Question
 #         fields = ('quiz', 'question_text', 'hint', 'choices')
-    
+
 #     def create(self, validated_data):
 #         # quiz = self.context['quiz']
 #         # print(quiz)
@@ -49,10 +49,8 @@
 #     class Meta:
 #         model = Quiz
 #         fields = ('level', 'pk', 'title','slug', 'single_attempt','pass_mark','success_text','fail_text','draft','duration','questions')
-    
+
 #     def create(self, validated_data):
 
 #         newQuiz = Quiz.objects.create(**validated_data)
 #         return newQuiz
-
- 

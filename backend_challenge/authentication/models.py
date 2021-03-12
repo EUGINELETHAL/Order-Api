@@ -49,7 +49,7 @@
 #     is_active = models.BooleanField(_('active'), default=True)
 #     is_verified = models.BooleanField(default=False)
 #     is_staff = models.BooleanField(default=False)
-   
+
 #     objects = UserManager()
 
 #     USERNAME_FIELD = ('email')

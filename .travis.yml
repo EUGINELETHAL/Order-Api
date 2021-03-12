@@ -6,6 +6,8 @@ python:
 
 services:
   - docker
+env:
+  - DOCKER_COMPOSE_VERSION=3.3
 jobs:
   include:
 

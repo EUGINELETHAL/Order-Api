@@ -11,7 +11,6 @@ jobs:
 
     - name: "Django Test"
       before_script:
-        -touch .env
         - docker-compose -v
         - docker -v
         - docker-compose -f docker-compose.yml build

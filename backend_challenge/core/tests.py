@@ -17,15 +17,24 @@ def user_fixture():
 @pytest.mark.django_db
 def test_user_create(user_fixture):
     assert User.objects.count() == 1
+    
+@pytest.fixture
+def api_client():
+   from rest_framework.test import APIClient
+   return APIClient()
 
 
+@pytest.mark.django_db    
+def test_customer_model_string_representation(user_fixture):
+    customer = Customer.objects.create(
+        user=user_fixture, phone="+254728826517", code="5665"
+    )
+    assert customer.__str__()=="lennon@thebeatles.com"
 @pytest.mark.django_db
-@pytest.mark.django_db
-def test_customer_create(user_fixture):
-    client = APIClient()
+def test_customer_create(user_fixture, api_client):
     url = "/api/v1/customer"
-    client = APIClient()
-    client.force_authenticate(user=user_fixture)
+    
+    api_client.force_authenticate(user=user_fixture)
 
     data = {
         "phone": "+254728826517",
@@ -33,26 +42,23 @@ def test_customer_create(user_fixture):
         "user": user_fixture,
     }
 
-    response = client.post(url, data=data)
+    response =api_client.post(url, data=data)
     assert response.status_code == 201
     assert Customer.objects.count() == 1
 
 
 @pytest.mark.django_db
-def test_anonymous_user_cannot_create_customer():
-    client = APIClient()
+def test_anonymous_user_cannot_create_customer(api_client):
     url = "/api/v1/customer"
-    client.force_authenticate(user=None)
-    response = client.get(url)
+    api_client.force_authenticate(user=None)
+    response = api_client.get(url)
     assert response.status_code == 401
 
 
 @pytest.mark.django_db
-def test_customer_create_invalid_phone(user_fixture):
-    client = APIClient()
+def test_customer_create_invalid_phone(user_fixture,api_client):
     url = "/api/v1/customer"
-    client = APIClient()
-    client.force_authenticate(user=user_fixture)
+    api_client.force_authenticate(user=user_fixture)
 
     data = {
         "phone": "0728826517",
@@ -60,16 +66,14 @@ def test_customer_create_invalid_phone(user_fixture):
         "user": user_fixture,
     }
 
-    response = client.post(url, data=data)
+    response = api_client.post(url, data=data)
     assert response.status_code == 400
 
 
 @pytest.mark.django_db
-def test_customer_create_no_phone(user_fixture):
-    client = APIClient()
+def test_customer_create_no_phone(user_fixture,api_client):
     url = "/api/v1/customer"
-    client = APIClient()
-    client.force_authenticate(user=user_fixture)
+    api_client.force_authenticate(user=user_fixture)
 
     data = {
         "phone": "",
@@ -77,16 +81,14 @@ def test_customer_create_no_phone(user_fixture):
         "user": user_fixture,
     }
 
-    response = client.post(url, data=data)
+    response =api_client.post(url, data=data)
     assert response.status_code == 400
 
 
 @pytest.mark.django_db
-def test_customer_create_no_code(user_fixture):
-    client = APIClient()
+def test_customer_create_no_code(user_fixture,api_client):
     url = "/api/v1/customer"
-    client = APIClient()
-    client.force_authenticate(user=user_fixture)
+    api_client.force_authenticate(user=user_fixture)
 
     data = {
         "phone": "",
@@ -94,23 +96,39 @@ def test_customer_create_no_code(user_fixture):
         "user": user_fixture,
     }
 
-    response = client.post(url, data=data)
+    response =api_client.post(url, data=data)
     assert response.status_code == 400
 
 
+
+    
 @pytest.mark.django_db
-def test_order_create(user_fixture):
-    client = APIClient()
+def test_order_create(user_fixture,api_client):
     url = "/api/v1/order"
-    client = APIClient()
-    client.force_authenticate(user=user_fixture)
+    api_client.force_authenticate(user=user_fixture)
     customer = Customer.objects.create(
         user=user_fixture, phone="+254728826517", code="5665"
     )
     data = {"item": "books", "amount": 4, "customer": customer}
-    response = client.post(url, data=data)
+    response =api_client.post(url, data=data)
     assert response.status_code == 201
     assert Order.objects.count() == 1
+@pytest.mark.django_db    
+def test_order_string_representation(user_fixture):
+    customer = Customer.objects.create(
+        user=user_fixture, phone="+254728826517", code="5665"
+    )
+    order = Order.objects.create(item="books", amount=4, customer=customer)
+    assert order.__str__()==str(order.id)
+
+@pytest.mark.django_db
+def test_order_create_no_customer(user_fixture,api_client):
+    url = "/api/v1/order"
+    api_client.force_authenticate(user=user_fixture)
+    data = {"item": "books", "amount": 4,"customer":""}
+    response =api_client.post(url, data=data)
+    assert response.status_code == 400
+
 
 
 @pytest.mark.django_db
@@ -124,6 +142,7 @@ def test_send_new_event_service_called(mocker, user_fixture):
     )
     data = {"item": "books", "amount": 4, "customer": customer}
     response = client.post(url, data=data)
+    print(response.data)
     assert response.status_code == 201
     order=Order.objects.get(customer=customer)
     mock_send_new_event = mocker.patch("backend_challenge.core.tasks.send_sms",
@@ -131,9 +150,27 @@ def test_send_new_event_service_called(mocker, user_fixture):
 		)
     
     mock_send_new_event(order_id=order.id)
-    mock_send_new_event.assert_called_once_with(
+    mock_send_new_event.assert_called_with(
        order_id=order.id
    )
+@pytest.mark.django_db   
+def test_anonymous_user_cannot_create_order(api_client):
+    url = "/api/v1/order"
+    api_client.force_authenticate(user=None)
+    response = api_client.get(url)
+@pytest.mark.django_db     
+def test_create_order_with_no_item(user_fixture,api_client):
+    client = APIClient()
+    url = "/api/v1/order"
+    api_client.force_authenticate(user=user_fixture)
+    customer = Customer.objects.create(
+        user=user_fixture, phone="+254728865507", code="5665"
+    )
+    data = {"item": "", "amount": 4, "customer": customer}
+    response = api_client.post(url, data=data)
+    assert response.status_code == 400
+       
+
 
   
     

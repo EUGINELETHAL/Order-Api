@@ -9,17 +9,17 @@ Customer creates order  <br />
 Customers gets message after order created sucessfully(Asynchronous  Task) <br />
 
 # Tools and Technologies
- Django 
-2. DjangoRest
-3. Travis(CI/CD)
-4. Heroku-Deployment
-5. AfricaisTalking-(SMSGATEWAY)
-6. Coverage
-7. Celery
-8. Redis
-9. Pytest
-10. Docker
-11. Docker-Compose
+1. Django <br />
+2. DjangoRest <br />
+3. Travis(CI/CD) <br />
+4. Heroku-Deployment <br />
+5. AfricaisTalking-(SMSGATEWAY) <br />
+6. Coverage <br />
+7. Celery <br />
+8. Redis <br />
+9. Pytest <br />
+10. Docker <br />
+11. Docker-Compose <br />
 ## API ENDPOINTS
 
 [![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/470df32a30646e961eb9)

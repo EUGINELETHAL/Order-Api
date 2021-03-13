@@ -19,4 +19,6 @@ before_script:
 script:
   - pytest
   # coverage run --omit=*/venv/*,*/migrations/* manage.py test
+after_success:
+  - coveralls
   

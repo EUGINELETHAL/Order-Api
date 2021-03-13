@@ -17,8 +17,7 @@ before_script:
   - python manage.py collectstatic
 
 script:
-  - pytest
-  # coverage run --omit=*/venv/*,*/migrations/* manage.py test
+  - coverage run --omit=*/venv/*,*/migrations/* -m pytest
 after_success:
   - coveralls
   

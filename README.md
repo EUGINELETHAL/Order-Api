@@ -2,11 +2,11 @@
 [![Coverage Status](https://coveralls.io/repos/github/EUGINELETHAL/Order-Api/badge.png?branch=main)](https://coveralls.io/github/EUGINELETHAL/Order-Api?branch=main)
 # ORDER-API
 ..Order-Api is a simple REST  API used to upload customers orders.
-..User Stories
-Users authenticates via OAUTH2 and OpenidCOnnect(GOogleOAuth 2.0 )
-Customer creates order 
-Customers gets message after order created sucessfully(Asynchronous  Task)
 
+..User Stories  <br /> <br /> 
+Users authenticates via OAUTH2 and OpenidCOnnect(GOogleOAuth 2.0 ) <br />
+Customer creates order  <br />
+Customers gets message after order created sucessfully(Asynchronous  Task) <br />
 
 # Tools and Technologies
  Django 

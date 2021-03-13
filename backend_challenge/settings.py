@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "drf_yasg",
-    "backend_challenge.authentication",
     "backend_challenge.core",
     "django",
     "django_extensions",

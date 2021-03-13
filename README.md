@@ -1,5 +1,5 @@
-[![Build Status](https://travis-ci.com/EUGINELETHAL/Order-Api.svg?branch=main)](https://travis-ci.com/EUGINELETHAL/Backend-challenge)[![](https://github.com/EUGINELETHAL/Backend-challenge/blob/master/coverage.svg)
-[![Coverage Status](https://coveralls.io/repos/github/EUGINELETHAL/Order-Api/badge.png?branch=main)](https://coveralls.io/github/EUGINELETHAL/Order-Api?branch=main)
+[![Build Status](https://travis-ci.com/EUGINELETHAL/Order-Api.svg?branch=main)](https://travis-ci.com/EUGINELETHAL/Backend-challenge)
+[![Coverage Status](https://coveralls.io/repos/github/EUGINELETHAL/Order-Api/badge.svg?branch=main)](https://coveralls.io/github/EUGINELETHAL/Order-Api?branch=main)
 # ORDER-API
 ..Order-Api is a simple REST  API used to upload customers orders.
 

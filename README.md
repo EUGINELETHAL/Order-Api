@@ -54,7 +54,7 @@ To get started:
 
 
 ## Running the tests
- python manage 
+pytest
 ### Style Guide.
 PEP 8
 

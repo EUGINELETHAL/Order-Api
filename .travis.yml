@@ -24,3 +24,4 @@ jobs:
     
       after_failure:
         - docker-compose -f docker-compose.yml logs
+        

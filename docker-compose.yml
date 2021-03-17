@@ -1,18 +1,6 @@
 version: "3"
    
 services:
-  db:
-    image: postgres
-    volumes:
-      - ./postgres-data:/var/lib/postgresql/data
-    environment:
-      - SECRET_KEY=+63moyr!(3^666l62(@^u$zt!s1)ofxg^
-      - DEBUG=True
-      - POSTGRES_DB=orders
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=lucy
-      - POSTGRES_HOST=db
-      - POSTGRES_PORT=5432
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000

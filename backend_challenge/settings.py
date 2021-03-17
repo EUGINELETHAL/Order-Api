@@ -6,12 +6,12 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 import django_heroku
 from decouple import Csv, config
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -84,10 +84,14 @@ DATABASES = {
         "NAME":"orders",
         "USER":"postgres",
         "PASSWORD":"lucy",
-        "HOST":'db',
+        "HOST":"127.0.0.1",
         "PORT": 5432,
     }
 }
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "mozilla_django_oidc.contrib.drf.OIDCAuthentication",
@@ -142,7 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
-django_heroku.settings(locals())
+
 
 AUTHENTICATION_BACKENDS = (
     "mozilla_django_oidc.auth.OIDCAuthenticationBackend",
@@ -177,11 +181,11 @@ OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo"
 OIDC_RP_CLIENT_ID ="1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com"
 OIDC_RP_CLIENT_SECRET = "4ZbM0GBZVisPA9YrBP3lFcr5"
-CELERY_BROKER_URL = "redis://localhost:6379"
+CELERY_BROKER_URL ="redis://:**@ec2-34-237-95-184.compute-1.amazonaws.com:26109//"
 CELERY_RESULT_BACKEND = "redis://localhost:6379"
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"
 CELERY_TIMEZONE = "Africa/Nairobi"
-AFRICASTALKING_API_KEY ="4ZbM0GBZVisPA9YrBP3lFcr5"
+AFRICASTALKING_API_KEY = config("AFRICASTALKING_API_KEY")
 django_heroku.settings(locals())

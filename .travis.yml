@@ -1,27 +1,24 @@
-dist: xenial
-
 language: python
+
 python:
-  - "3.8"
+  - 3.6
 
 services:
-  - docker
-jobs:
-  include:
+  - postgresql
+  - redis-server
 
-    - name: "Django Test"
-      before_script:
-        - docker-compose -v
-        - docker -v
-        - docker-compose -f docker-compose.yml build
-        # Ensure celerybeat does not crash due to non-existent tables
-       
+addons:
+  postgresql: "9.6"
 
-        - docker-compose -f docker-compose.yml up -d
-        - docker-compose -f docker-compose.yml run web python manage.py migrate
-      script:
-        -docker-compose run web pytest
-    
-      after_failure:
-        - docker-compose -f docker-compose.yml logs
-        
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c "CREATE DATABASE orders;" -U postgres
+  - python manage.py migrate --noinput
+  - python manage.py collectstatic
+
+script:
+  - pytest
+
+  

@@ -11,7 +11,6 @@ services:
       - POSTGRES_DB=orders
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=lucy
-      
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000

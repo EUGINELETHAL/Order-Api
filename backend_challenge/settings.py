@@ -6,12 +6,12 @@ https://docs.djangoproject.com/en/3.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 import django_heroku
 from decouple import Csv, config
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -84,10 +84,14 @@ DATABASES = {
         "NAME":"orders",
         "USER":"postgres",
         "PASSWORD":"lucy",
-        "HOST":"db",
+        "HOST":"127.0.0.1",
         "PORT": 5432,
     }
 }
+
+DATABASE_URL = os.environ.get('DATABASE_URL')
+db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
+DATABASES['default'].update(db_from_env)
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "mozilla_django_oidc.contrib.drf.OIDCAuthentication",
@@ -142,7 +146,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = "/static/"
-django_heroku.settings(locals())
+
 
 AUTHENTICATION_BACKENDS = (
     "mozilla_django_oidc.auth.OIDCAuthenticationBackend",

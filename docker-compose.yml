@@ -17,8 +17,6 @@ services:
       - AFRICASTALKING_API_KEY=4b687203c43211be0e43105531bf92d7d8ad44d778bdfcf869988c465049291e
       - CELERY_BROKER_URL=redis://redis:6379/0
       - CELERY_RESULT_BACKEND=redis://redis:6379/0   
-    depends_on:
-      - db
   celery:
     build: .
     command: celery -A backend_challenge worker -l INFO

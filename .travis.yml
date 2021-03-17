@@ -15,9 +15,10 @@ jobs:
         - docker -v
         - docker-compose -f docker-compose.yml build
         # Ensure celerybeat does not crash due to non-existent tables
-        - docker-compose -f docker-compose.yml exec web python manage.py migrate --noinput
+       
 
         - docker-compose -f docker-compose.yml up -d
+        - docker-compose -f docker-compose.yml exec web python manage.py migrate --noinput
       script:
         - docker-compose -f docker-compose.yml exec web pytest
     

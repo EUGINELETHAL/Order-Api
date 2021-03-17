@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from .models import Customer, Order
 from .tasks import send_sms
-
+from django.test.utils import override_settings
 
 @pytest.mark.django_db
 @pytest.fixture
@@ -132,6 +132,9 @@ def test_order_create_no_customer(user_fixture,api_client):
 
 
 @pytest.mark.django_db
+@override_settings(CELERY_EAGER_PROPAGATES_EXCEPTIONS=True,
+                       CELERY_ALWAYS_EAGER=True,
+                       BROKER_BACKEND='memory')
 def test_send_new_event_service_called(mocker, user_fixture):
     client = APIClient()
     url = "/api/v1/order"
@@ -149,8 +152,8 @@ def test_send_new_event_service_called(mocker, user_fixture):
 		    				return_value={'SMSMessageData': {'Message': 'Sent to 1/1 Total Cost: KES 0.8000', 'Recipients': [{'statusCode': 101, 'number': '+254728865507', 'cost': 'KES 0.8000', 'status': 'Success', 'messageId': 'ATXid_415eabf3cb8623da7f6aa2b2c79981c9'}]}}
 		)
     
-    mock_send_new_event(order_id=order.id)
-    mock_send_new_event.assert_called_with(
+    mock_send_new_event.delay(order_id=order.id)
+    mock_send_new_event.delay.assert_called_with(
        order_id=order.id
    )
 @pytest.mark.django_db   

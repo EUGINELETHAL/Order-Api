@@ -49,5 +49,5 @@ class OrderListCreateAPIView(ListCreateAPIView):
     def perform_create(self, serializer):
         if serializer.is_valid():
             order = serializer.save()
-            send_sms(order.id)
+            send_sms.delay(order.id)
            

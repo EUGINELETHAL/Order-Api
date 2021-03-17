@@ -18,9 +18,9 @@ jobs:
        
 
         - docker-compose -f docker-compose.yml up -d
-        - docker-compose -f docker-compose.yml run --rm python manage.py migrate
+        - docker-compose -f docker-compose.yml run web python manage.py migrate
       script:
-        - docker-compose -f docker-compose.yml run pytest
+        -docker-compose run web pytest
     
       after_failure:
         - docker-compose -f docker-compose.yml logs

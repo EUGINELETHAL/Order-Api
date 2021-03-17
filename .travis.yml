@@ -18,9 +18,9 @@ jobs:
        
 
         - docker-compose -f docker-compose.yml up -d
-        - docker-compose -f docker-compose.yml exec web python manage.py migrate --noinput
+        - docker-compose -f docker-compose.yml run --rm django python manage.py migrate
       script:
-        - docker-compose -f docker-compose.yml exec web pytest
+        - "docker-compose -f local.yml run django pytest"
     
       after_failure:
         - docker-compose -f docker-compose.yml logs

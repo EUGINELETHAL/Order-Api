@@ -15,10 +15,11 @@ jobs:
         - docker -v
         - docker-compose -f docker-compose.yml build
         # Ensure celerybeat does not crash due to non-existent tables
-        - docker-compose exec web python -m manage migrate
+        - docker-compose -f local.yml run --rm django python manage.py migrate
 
         - docker-compose -f docker-compose.yml up -d
       script:
-        - docker-compose  exec web pytest
+        - docker-compose -f docker-compose.yml run django pytest
+    
       after_failure:
         - docker-compose -f docker-compose.yml logs

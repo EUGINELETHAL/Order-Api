@@ -16,7 +16,7 @@ install:
 before_script:
   - psql -c "CREATE DATABASE orders;" -U postgres
   - python manage.py migrate --noinput
-  - python manage.py collectstatic
+  - python manage.py collectstatic --noinput
 
 script:
   - pytest

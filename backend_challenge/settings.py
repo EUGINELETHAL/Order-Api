@@ -26,6 +26,7 @@ SECRET_KEY = config("SECRET_KEY")
 DEBUG = config("DEBUG", cast=bool)
 
 
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -75,16 +76,16 @@ TEMPLATES = [
 WSGI_APPLICATION = "backend_challenge.wsgi.application"
 
 
-ALLOWED_HOSTS = ["*"]
-# ALLOWED_HOSTS = config('ALLOWED_HOSTS')
+
+ALLOWED_HOSTS = config('ALLOWED_HOSTS')
 
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME":"orders",
-        "USER":"postgres",
-        "PASSWORD":"lucy",
-        "HOST":"127.0.0.1",
+        "NAME": config("DB_NAME"),
+        "USER": config("DB_USER"),
+        "PASSWORD": config("DB_PASSWORD"),
+        "HOST":config("DB_HOST"),
         "PORT": 5432,
     }
 }
@@ -98,8 +99,11 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_RENDERER_CLASSES": [
-        "rest_framework.renderers.JSONRenderer",
-        "rest_framework.renderers.BrowsableAPIRenderer",
+     	"rest_framework.renderers.JSONRenderer",
+    	"rest_framework.renderers.BrowsableAPIRenderer"
+    	
+       
+     
     ],
 }
 CACHES = {
@@ -144,8 +148,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
+STATIC_ROOT = 'staticfiles'
+STATIC_URL = '/static/'
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
-STATIC_URL = "/static/"
+
 
 
 AUTHENTICATION_BACKENDS = (
@@ -161,28 +170,19 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-LOGIN_REDIRECT_URL = "/api/v1/customer"
+LOGIN_REDIRECT_URL = "/api/v1/order"
 STATIC_URL = "/static/"
 
-# CSRF_COOKIE_SECURE = True
-# CSRF_COOKIE_HTTPONLY = True
-# SECURE_HSTS_SECONDS = 60 * 60 * 24 * 7 * 52  # one year
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-# SECURE_SSL_REDIRECT = True
-# SECURE_BROWSER_XSS_FILTER = True
-# SECURE_CONTENT_TYPE_NOSNIFF = True
-# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-# SESSION_COOKIE_SECURE = True
+
 
 OIDC_RP_SIGN_ALGO = "RS256"
 OIDC_OP_JWKS_ENDPOINT = "https://www.googleapis.com/oauth2/v3/certs"
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth"
 OIDC_OP_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
 OIDC_OP_USER_ENDPOINT = "https://openidconnect.googleapis.com/v1/userinfo"
-OIDC_RP_CLIENT_ID ="1084835314828-s8npea9jce01udttaf8td5627p9k06fg.apps.googleusercontent.com"
-OIDC_RP_CLIENT_SECRET = "4ZbM0GBZVisPA9YrBP3lFcr5"
-CELERY_BROKER_URL="redis://:p9a2c111acb8edc83182d06cf325b6a76bc54fecf4ee9bd2229637f881b5e8c1e@ec2-34-237-95-184.compute-1.amazonaws.com:26109"
-CELERY_RESULT_BACKEND="redis://:p9a2c111acb8edc83182d06cf325b6a76bc54fecf4ee9bd2229637f881b5e8c1e@ec2-34-237-95-184.compute-1.amazonaws.com:26109"
+OIDC_RP_CLIENT_ID =config("OIDC_RP_CLIENT_ID")
+OIDC_RP_CLIENT_SECRET = config("OIDC_RP_CLIENT_SECRET")
+CELERY_BROKER_URL= config("REDIS_URL")
 CELERY_ACCEPT_CONTENT = ["application/json"]
 CELERY_TASK_SERIALIZER = "json"
 CELERY_RESULT_SERIALIZER = "json"

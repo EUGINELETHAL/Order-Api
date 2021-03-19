@@ -1,3 +1,4 @@
+import time
 import africastalking
 from celery import shared_task
 from django.conf import settings
@@ -18,12 +19,13 @@ def send_sms(order_id):
     successfully created.
     """
     order = Order.objects.select_related("customer").get(id=order_id)
-
-
+    
     message = f"Dear {order.customer} You have successfully placed an order.Your order ID is {order.id}."
+    time.sleep(5)
+    print(message)
     response = sms.send(message, [order.customer.phone])
     return response
 
 
-#    sudo service redis-server stop
+
 # $ celery -A backend_challenge worker -l INFO

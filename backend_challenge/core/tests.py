@@ -1,4 +1,5 @@
 import pytest
+import json
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 from .models import Customer, Order
@@ -172,6 +173,21 @@ def test_create_order_with_no_item(user_fixture,api_client):
     data = {"item": "", "amount": 4, "customer": customer}
     response = api_client.post(url, data=data)
     assert response.status_code == 400
+
+@pytest.mark.django_db
+def test_list_orders(user_fixture,api_client):
+    """
+    Test to verify user orders list
+    """
+    url = "/api/v1/order"
+    api_client.force_authenticate(user=user_fixture)
+    customer = Customer.objects.create(
+        user=user_fixture, phone="+254728826517", code="5665"
+    )
+    order = Order.objects.create(item="books", amount=4, customer=customer)
+    
+    response = api_client.get(url)
+    assert len(json.loads(response.content)) == 1
        
 
 

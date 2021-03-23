@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from .models import Customer, Order
 from .serializers import CustomerSerializer, OrderSerializer
 from .tasks import send_sms
-
+from django.db import transaction
 
 class Customer_Create(APIView):
     permission_classes = [IsAuthenticated]

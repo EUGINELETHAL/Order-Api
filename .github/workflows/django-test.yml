@@ -60,11 +60,10 @@ jobs:
         # Step specific environment variables
         env:
           DEBUG: "0"
-          DJANGO_SECRET_KEY: ${{ env.SECRET_KEY }}
-          DB_USERNAME: ${{ env.POSTGRES_USER }}
-          DB_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
-          DB_HOST: ${{ env.POSTGRES_HOST }}
-          DB_DATABASE: ${{ env.POSTGRES_DB }}
-          DB_PORT: ${{ env.POSTGRES_PORT }}
+          SECRET_KEY: " +63moyr!(3^666l62(@^u$zt!s1)ofxg^*&nf8w#!o#!&@40ob"
+          DB_NAME: "orders"
+          DB_USER: "postgres"
+          DB_PASSWORD: "lucy"
+          DB_HOST= "localhost"
         run: |
          pytest

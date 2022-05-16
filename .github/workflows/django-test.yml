@@ -61,9 +61,11 @@ jobs:
         env:
           DEBUG: "0"
           SECRET_KEY: " +63moyr!(3^666l62(@^u$zt!s1)ofxg^*&nf8w#!o#!&@40ob"
+          ALLOWED_HOSTS: ['*']
           DB_NAME: "orders"
           DB_USER: "postgres"
           DB_PASSWORD: "lucy"
           DB_HOST: "localhost"
+
         run: |
          pytest

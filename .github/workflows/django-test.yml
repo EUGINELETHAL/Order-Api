@@ -64,6 +64,6 @@ jobs:
           DB_NAME: "orders"
           DB_USER: "postgres"
           DB_PASSWORD: "lucy"
-          DB_HOST= "localhost"
+          DB_HOST: "localhost"
         run: |
          pytest

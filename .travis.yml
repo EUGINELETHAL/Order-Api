@@ -24,8 +24,6 @@ before_deploy:
   - rvm $(travis_internal_ruby) --fuzzy do ruby -S gem install faraday -v 1.8.0
 deploy:
   provider: heroku
-  api_key:
-      secure: "htspFSNlskMCn6+5ExaJBn0ypR0/8gRzj797gSPQViZIkBh4d6qrPvW/PfjJh0LoBgg05WOmNUWtAruLbCoQQsCyVQtl2kVS921Ths+J+gMZS1aLogzA4sbnY4e4bQ4HbcssaNXWIESsNoh/KZmOb0lExayMDnCC5+jixBSuVxHlxHubgLIpffTkWpcSdjZkk+IbfgC2ixhm2CtiqT93+fqqPQoO+tqBmbJnK//ihr2Crfjo2BwlPCSIbAS3ec2kMcIcu4ZY0ymriSPnCPLp0iAgPwtxcqAJ+cxyLTh7PXFnaOV9pD4VpKzODvU+jLB/xYTN1f69tFuxuKEg/PJhwvBxCS/qZoJX2zrYlFp9leDEp/+ehD7afMqFIQp/5oePW++tMuRuxvs5aAHDMXXaEcPJ/3aXrweZrX2RmkeDgXrDgkSCt3WBnBKPQ/Y5+g683pTD3fGZXCx4QFedzlvzDhIILWgwomTCiakNjncvHNTRaqXSOxSRRzRTA3YgjESqxOavdbG5TuhIwuEMp5yNmo4V96fO68mpYQzZbvoH6NNFXnfAB5rRf6IsfV/0PxVlEXCNG+VV4RyG+sBruNYQjb3qY8m1cuMznpXv+s/RkBq2C6TBEfL3tLCkN6QkUrhOKSxHGlxZUSY2QHImq5opm0/4DoOVPdZA9MRCz6/rHUA="
   app: backend-challenge5
   on: main
   strategy: git

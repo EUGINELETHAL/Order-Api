@@ -25,7 +25,7 @@ before_deploy:
 deploy:
   provider: heroku
   api_key:
-    secure: "bfeaaaee-7826-4434-b151-adf4eaac217e"
+    secure: "22574351-c089-41ba-a781-63af7977c453"
   app: backend-challenge5
   on: main
   strategy: git

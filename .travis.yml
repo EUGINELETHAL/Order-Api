@@ -27,3 +27,4 @@ deploy:
     secure: "bfeaaaee-7826-4434-b151-adf4eaac217e"
   app: backend-challenge5
   on: main
+  strategy: git

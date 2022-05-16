@@ -21,4 +21,9 @@ before_script:
 script:
   - pytest
 
-  
+deploy:
+  provider: heroku
+  api_key:
+    secure: "bfeaaaee-7826-4434-b151-adf4eaac217e"
+  app: backend-challenge5
+  on: main

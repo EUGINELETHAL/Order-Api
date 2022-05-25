@@ -32,7 +32,7 @@ DEBUG = config("DEBUG", cast=bool)
 INSTALLED_APPS = [
     "django.contrib.admin",
     "django.contrib.auth",
-    "mozilla_django_oidc",  # L
+    "mozilla_django_oidc", 
     "django.contrib.contenttypes",
     "django.contrib.sessions",
     "django.contrib.messages",
@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "drf_yasg",
     "backend_challenge.core",
     "django",
+    "corsheaders",
     "django_extensions",
     "rest_framework",
     "social_django",
@@ -48,12 +49,18 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+CORS_ORIGIN_ALLOW_ALL = False
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8081',
+    'http://localhost:3000'
+)
 
 ROOT_URLCONF = "backend_challenge.urls"
 
@@ -77,15 +84,15 @@ WSGI_APPLICATION = "backend_challenge.wsgi.application"
 
 
 
-ALLOWED_HOSTS = config('ALLOWED_HOSTS')
-
+# ALLOWED_HOSTS = config('ALLOWED_HOSTS')
+ALLOWED_HOSTS = ['*']
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql_psycopg2",
         "NAME": config("DB_NAME"),
         "USER": config("DB_USER"),
         "PASSWORD": config("DB_PASSWORD"),
-        "HOST":config("DB_HOST"),
+        "HOST":"db",
         "PORT": 5432,
     }
 }
@@ -95,8 +102,10 @@ db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl
 DATABASES['default'].update(db_from_env)
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
-        "mozilla_django_oidc.contrib.drf.OIDCAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
+      'mozilla_django_oidc.contrib.drf.OIDCAuthentication', 
+      "rest_framework.authentication.SessionAuthentication"
+      
+      
     ],
     "DEFAULT_RENDERER_CLASSES": [
      	"rest_framework.renderers.JSONRenderer",
@@ -170,11 +179,12 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
-LOGIN_REDIRECT_URL = "/api/v1/order"
+LOGIN_REDIRECT_URL = "/api/v1/customer"
 STATIC_URL = "/static/"
 
-
-
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SAMESITE = 'None'
+OIDC_DRF_AUTH_BACKEND = 'mozilla_django_oidc.auth.OIDCAuthenticationBackend'
 OIDC_RP_SIGN_ALGO = "RS256"
 OIDC_OP_JWKS_ENDPOINT = "https://www.googleapis.com/oauth2/v3/certs"
 OIDC_OP_AUTHORIZATION_ENDPOINT = "https://accounts.google.com/o/oauth2/v2/auth"

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.core.validators import RegexValidator
 from django.db import models
 from mozilla_django_oidc.auth import OIDCAuthenticationBackend
-
+from datetime import date
 
 class TimeStampedModel(models.Model):
     added = models.DateTimeField(auto_now_add=True)
@@ -25,7 +25,7 @@ class Customer(TimeStampedModel):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     code = models.CharField("code", max_length=15)
 
-    # validationhttps://stackoverflow.com/questions/19130942/whats-the-best-way-to-store-phone-number-in-django-models
+  
 
     def __str__(self):
         return self.user.email
@@ -43,3 +43,4 @@ class Order(TimeStampedModel):
 
     class Meta:
         ordering = ["-added"]
+        
